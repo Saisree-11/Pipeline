@@ -1,5 +1,6 @@
 CREATE DATABASE retail_sales_db;
 USE retail_sales_db;
+
 CREATE TABLE dim_customer (
     customer_id VARCHAR(10) PRIMARY KEY,
     customer_name VARCHAR(100),
