@@ -19,7 +19,6 @@ print(products_df.head())
 
 print("\nOrders:")
 print(orders_df.head())
-
 # ==================================================
 # STEP 2: SCHEMA VALIDATION
 # ==================================================
