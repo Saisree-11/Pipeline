@@ -1,0 +1,4 @@
+customer_id,customer_name,city,start_date,end_date,is_current
+C101,Rahul,Hyderabad,2026-11-07,9999-12-31,Y
+C102,Priya,Bangalore,2026-11-07,9999-12-31,Y
+C103,Amit,Chennai,2026-11-07,9999-12-31,Y

@@ -1,0 +1,5 @@
+order_id,customer_id,customer_name,city,product_id,product_name,price,quantity,sales_amount,order_date
+O101,C101,Rahul,Hyderabad,P101,Laptop,50000,1,50000,2026-11-01
+O102,C102,Priya,Bangalore,P102,Mobile,20000,2,40000,2026-11-02
+O103,C103,Amit,Chennai,P103,Headphones,2000,3,6000,2026-11-03
+O104,C101,Rahul,Hyderabad,P104,Keyboard,1500,2,3000,2026-11-04
