@@ -1,10 +1,5 @@
 import pandas as pd
 from datetime import datetime
-
-# ==================================================
-# STEP 1: READ SOURCE FILES
-# ==================================================
-
 customers_df = pd.read_csv("customers.csv")
 products_df = pd.read_csv("products.csv")
 orders_df = pd.read_csv("orders.csv")
@@ -19,10 +14,6 @@ print(products_df.head())
 
 print("\nOrders:")
 print(orders_df.head())
-# ==================================================
-# STEP 2: SCHEMA VALIDATION
-# ==================================================
-
 expected_order_columns = [
     "order_id",
     "customer_id",
@@ -39,10 +30,6 @@ if set(orders_df.columns) != set(expected_order_columns):
 
 print("\nSchema validation passed")
 
-# ==================================================
-# STEP 3: REMOVE DUPLICATES
-# ==================================================
-
 customers_df = customers_df.drop_duplicates()
 
 orders_df = orders_df.drop_duplicates(
@@ -50,10 +37,6 @@ orders_df = orders_df.drop_duplicates(
 )
 
 print("Duplicate records removed")
-
-# ==================================================
-# STEP 4: IDENTIFY INVALID ORDERS
-# ==================================================
 
 invalid_orders = orders_df[
     ~orders_df["customer_id"].isin(
@@ -69,20 +52,12 @@ invalid_orders.to_csv(
     index=False
 )
 
-# ==================================================
-# STEP 5: KEEP ONLY VALID ORDERS
-# ==================================================
 
 valid_orders = orders_df[
     orders_df["customer_id"].isin(
         customers_df["customer_id"]
     )
 ].copy()
-
-# ==================================================
-# STEP 6: HANDLE LATE ARRIVING RECORDS
-# ==================================================
-
 current_load_date = pd.to_datetime(
     "2026-11-05"
 )
@@ -102,21 +77,12 @@ print(
         valid_orders["late_flag"] == True
     ]
 )
-
-# ==================================================
-# STEP 7: JOIN CUSTOMER DATA
-# ==================================================
-
 sales_df = pd.merge(
     valid_orders,
     customers_df,
     on="customer_id",
     how="inner"
 )
-
-# ==================================================
-# STEP 8: JOIN PRODUCT DATA
-# ==================================================
 
 sales_df = pd.merge(
     sales_df,
@@ -127,18 +93,12 @@ sales_df = pd.merge(
 
 print("\nCustomer and Product Join Completed")
 
-# ==================================================
-# STEP 9: CALCULATE SALES AMOUNT
-# ==================================================
 
 sales_df["sales_amount"] = (
     sales_df["quantity"]
     * sales_df["price"]
 )
 
-# ==================================================
-# STEP 10: CREATE CURATED DATA
-# ==================================================
 
 required_columns = [
     "order_id",
@@ -157,10 +117,6 @@ final_sales = sales_df[
     required_columns
 ]
 
-# ==================================================
-# STEP 11: SAVE CURATED DATA
-# ==================================================
-
 final_sales.to_csv(
     "curated_sales.csv",
     index=False
@@ -168,9 +124,6 @@ final_sales.to_csv(
 
 print("\nCurated file created successfully")
 
-# ==================================================
-# STEP 12: RECONCILIATION REPORT
-# ==================================================
 
 source_count = len(orders_df)
 target_count = len(final_sales)
@@ -193,10 +146,6 @@ reconciliation.to_csv(
 print("\nReconciliation Report")
 print(reconciliation)
 
-# ==================================================
-# STEP 13: PIPELINE RUN LOG
-# ==================================================
-
 pipeline_log = pd.DataFrame({
     "run_time": [datetime.now()],
     "source_count": [source_count],
@@ -212,10 +161,6 @@ pipeline_log.to_csv(
 
 print("\nPipeline Log")
 print(pipeline_log)
-
-# ==================================================
-# STEP 14: INCREMENTAL LOAD
-# ==================================================
 
 last_loaded_date = pd.to_datetime(
     "2026-11-04"
@@ -235,10 +180,6 @@ incremental_orders.to_csv(
 print("\nIncremental Records")
 print(incremental_orders)
 
-# ==================================================
-# STEP 15: SCD TYPE 2 SAMPLE
-# ==================================================
-
 customer_history = customers_df.copy()
 
 customer_history["start_date"] = (
@@ -257,10 +198,6 @@ customer_history.to_csv(
 )
 
 print("\nSCD Type 2 Customer Dimension Created")
-
-# ==================================================
-# STEP 16: DATA QUALITY REPORT
-# ==================================================
 
 dq_report = pd.DataFrame({
     "total_orders": [len(orders_df)],
